@@ -7,7 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+<<<<<<< HEAD
 import org.springframework.transaction.annotation.Transactional;
+=======
+>>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +26,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+<<<<<<< HEAD
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName) {
         try {
@@ -38,6 +42,16 @@ public class JournalEntryService {
     }
 
 
+=======
+    public void saveEntry(JournalEntry journalEntry, String username){
+        User user = userService.findByUserName(username);
+        journalEntry.setDate(LocalDateTime.now());
+        JournalEntry saved = journalEntryRepository.save(journalEntry);
+        user.getJournalEntries().add(saved);
+        userService.saveEntry(user);
+    }
+
+>>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
     public void saveEntry(JournalEntry journalEntry){
         journalEntryRepository.save(journalEntry);
     }
@@ -50,6 +64,7 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
+<<<<<<< HEAD
 
     @Transactional
     public boolean deleteById(ObjectId id, String userName) {
@@ -67,6 +82,15 @@ public class JournalEntryService {
         }
         return removed;
     }
+=======
+    public void deleteById(ObjectId id, String username){
+        User user = userService.findByUserName(username);
+        user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+        userService.saveEntry(user);
+        journalEntryRepository.deleteById(id); // doesn't return anything
+    }
+
+>>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
 }
 
 

@@ -53,12 +53,15 @@
 			<scope>provided</scope>
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
 
+=======
+>>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
 	</dependencies>
 
 	<build>
