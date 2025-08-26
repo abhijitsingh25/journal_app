@@ -8,20 +8,15 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
-=======
->>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
 import java.util.stream.Collectors;
-=======
->>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
 
 @RestController
 @RequestMapping("/journal")
@@ -34,15 +29,13 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
-<<<<<<< HEAD
     @GetMapping
     public ResponseEntity<?> getAllJournalEntriesOfUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-=======
     @GetMapping("{username}")
     public ResponseEntity<?> getAllJournalEntriesOfUser(@PathVariable String username){
->>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
+
         User user = userService.findByUserName(username);
         List<JournalEntry> all = user.getJournalEntries();
         if(all != null && !all.isEmpty()){
@@ -51,17 +44,16 @@ public class JournalEntryController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-<<<<<<< HEAD
+
     @PostMapping
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
-=======
     @PostMapping("{username}")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry,@PathVariable String username){
         try {
->>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
+
             journalEntryService.saveEntry(myEntry,username);
             return new ResponseEntity<>(myEntry, HttpStatus.CREATED);
         } catch (Exception e){
@@ -70,7 +62,6 @@ public class JournalEntryController {
     }
 
     @GetMapping("id/{myId}")
-<<<<<<< HEAD
     public ResponseEntity<?> getJournalEntryById(@PathVariable String myId) {
         ObjectId objectId = new ObjectId(myId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -115,7 +106,6 @@ public class JournalEntryController {
                 journalEntryService.saveEntry(old);
                 return new ResponseEntity<>(old, HttpStatus.OK);
             }
-=======
     public ResponseEntity<JournalEntry> getJournalEntryById(@PathVariable ObjectId myId) {
          Optional<JournalEntry> journalEntry =  journalEntryService.findById(myId);
          if(journalEntry.isPresent()){
@@ -142,7 +132,6 @@ public class JournalEntryController {
             old.setContent(newEntry.getContent() != null && !newEntry.equals("")? newEntry.getContent() : old.getContent());
             journalEntryService.saveEntry(old);
             return new ResponseEntity<>(old,HttpStatus.OK);
->>>>>>> 7c7e63cff0042264640a966d526fcfb4767083b4
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
